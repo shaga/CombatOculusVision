@@ -1,0 +1,29 @@
+﻿<Window x:Class="OculusVision.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:clEyeMulticam="clr-namespace:CLEyeMulticam"
+        xmlns:oculusVision="clr-namespace:OculusVision"
+        Title="MainWindow"
+        Loaded="MainWindow_OnLoaded"
+        Closing="MainWindow_OnClosing"
+        SizeChanged="MainWindow_OnSizeChanged"
+        >
+    <Grid Background="Black" Name="BaseGrid" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type oculusVision:MainWindow}}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <clEyeMulticam:CLEyeCameraImage Grid.Column="0"
+                                        x:Name="ImageLeft" ColorMode="CLEYE_COLOR_PROCESSED"
+                                        Framerate="60" Resolution="CLEYE_VGA"
+                                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Width="{Binding ImageWidth}" Height="{Binding ImageHeight}"
+                                        />
+        <clEyeMulticam:CLEyeCameraImage Grid.Column="1"
+                                        x:Name="ImageRight" ColorMode="CLEYE_COLOR_PROCESSED"
+                                        Framerate="60" Resolution="CLEYE_VGA"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Width="{Binding ImageWidth}" Height="{Binding ImageHeight}"
+                                        />
+    </Grid>
+</Window>
