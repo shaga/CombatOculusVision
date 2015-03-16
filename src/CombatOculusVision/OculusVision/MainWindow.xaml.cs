@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -23,6 +24,62 @@ using WindowState = System.Windows.WindowState;
 
 namespace OculusVision
 {
+    [ValueConversion(typeof(double), typeof(Thickness))]
+    public abstract class MarginConverter : IValueConverter
+    {
+        protected enum EType
+        {
+            Left,
+            Right,
+        }
+
+        protected abstract EType Type { get; }
+
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double marginSize;
+
+            if (value is double)
+            {
+                marginSize = (double) value;
+            }
+            else
+            {
+                marginSize = 0.0;
+            }
+
+            marginSize = 0 - marginSize;
+
+            if (Type == EType.Right)
+            {
+                return new Thickness(marginSize, 0, 0, 0);
+            }
+
+            return new Thickness(0, 0, marginSize, 0);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class CamLeftMarginConverter : MarginConverter
+    {
+        protected override EType Type
+        {
+            get { return EType.Left; }
+        }
+    }
+
+    public class CamRightMarginConverter : MarginConverter
+    {
+        protected override EType Type
+        {
+            get { return EType.Right; }
+        }
+    }
+
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
@@ -32,6 +89,7 @@ namespace OculusVision
 
         private double _imageWidth;
         private double _imageHeight;
+        private double _marginSize;
 
         public double ImageWidth
         {
@@ -55,7 +113,20 @@ namespace OculusVision
             }
         }
 
+        public double MarginSize
+        {
+            get { return _marginSize; }
+            set
+            {
+                if (value.Equals(_marginSize)) return;
+                _marginSize = value;
+                OnPropertyChanged();
+            }
+        }
+
         private PsNaviController Controller { get; set; }
+
+        private SubInfoWindow SubWindow { get; set;  }
 
         public MainWindow()
         {
@@ -85,18 +156,38 @@ namespace OculusVision
                     {
                         case EStateCrossKey.None:
                             ret = CombatCommandSender.SendCommandStop();
+                            if (SubWindow != null)
+                            {
+                                SubWindow.CombatStatus = "止";
+                            }
                             break;
                         case EStateCrossKey.Up:
                             ret = CombatCommandSender.SendCommandFore();
+                            if (SubWindow != null)
+                            {
+                                SubWindow.CombatStatus = "前";
+                            }
                             break;
                         case EStateCrossKey.Down:
                             ret = CombatCommandSender.SendCommandBack();
+                            if (SubWindow != null)
+                            {
+                                SubWindow.CombatStatus = "後";
+                            }
                             break;
                         case EStateCrossKey.Left:
                             ret = CombatCommandSender.SendCommandLeft();
+                            if (SubWindow != null)
+                            {
+                                SubWindow.CombatStatus = "左";
+                            }
                             break;
                         case EStateCrossKey.Right:
                             ret = CombatCommandSender.SendCommandRight();
+                            if (SubWindow != null)
+                            {
+                                SubWindow.CombatStatus = "右";
+                            }
                             break;
                         default:
                             ret = true;
@@ -123,13 +214,15 @@ namespace OculusVision
 
             ImageLeft.Device.Create(CLEyeCameraDevice.CameraUUID(0));
             ImageLeft.Device.Start();
-            ImageLeft.Device.LensCorrection2 = 400;
-            ImageLeft.Device.LensCorrection3 = 400;
+            ImageLeft.Device.LensCorrection1 = 300;
+            ImageLeft.Device.LensCorrection2 = 300;
+            ImageLeft.Device.LensCorrection3 = 300;
 
             ImageRight.Device.Create(CLEyeCameraDevice.CameraUUID(1));
             ImageRight.Device.Start();
-            ImageRight.Device.LensCorrection2 = 400;
-            ImageRight.Device.LensCorrection3 = 400;
+            ImageRight.Device.LensCorrection1 = 300;
+            ImageRight.Device.LensCorrection2 = 300;
+            ImageRight.Device.LensCorrection3 = 300;
         }
 
         private void InitRift()
@@ -143,13 +236,24 @@ namespace OculusVision
 
                     WindowStyle = WindowStyle.None;
                     WindowState = WindowState.Maximized;
+
+                    SubWindow = new SubInfoWindow();
+                    SubWindow.ClosedEvent += () =>
+                    {
+                        SubWindow = null;
+                        Close();
+                    };
+                    SubWindow.Show();
                 }
             }
         }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            Controller.StopPollingJoystick();
+            if (Controller != null)
+            {
+                Controller.StopPollingJoystick();
+            }
 
             var camCount = CLEyeCameraDevice.CameraCount;
 
@@ -160,6 +264,11 @@ namespace OculusVision
 
                 ImageRight.Device.Stop();
                 ImageRight.Device.Destroy();
+            }
+
+            if (SubWindow != null)
+            {
+                SubWindow.Close();
             }
         }
 
@@ -180,6 +289,10 @@ namespace OculusVision
                 ImageWidth = baseWidth;
                 ImageHeight = baseWidth*ImageAcceptRate;
             }
+
+            MarginSize = ImageWidth*0.05;
+            ImageWidth *= 1.1;
+            ImageHeight *= 1.1;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

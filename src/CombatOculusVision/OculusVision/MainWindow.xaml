@@ -8,6 +8,10 @@
         Closing="MainWindow_OnClosing"
         SizeChanged="MainWindow_OnSizeChanged"
         >
+    <Window.Resources>
+        <oculusVision:CamLeftMarginConverter x:Key="CamLeftMarginConverter"/>
+        <oculusVision:CamRightMarginConverter x:Key="CamRightMarginConverter"/>
+    </Window.Resources>
     <Grid Background="Black" Name="BaseGrid" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type oculusVision:MainWindow}}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -18,12 +22,14 @@
                                         Framerate="60" Resolution="CLEYE_VGA"
                                         HorizontalAlignment="Right" VerticalAlignment="Center"
                                         Width="{Binding ImageWidth}" Height="{Binding ImageHeight}"
+                                        Margin="{Binding MarginSize, Converter={StaticResource CamLeftMarginConverter}}"
                                         />
         <clEyeMulticam:CLEyeCameraImage Grid.Column="1"
                                         x:Name="ImageRight" ColorMode="CLEYE_COLOR_PROCESSED"
                                         Framerate="60" Resolution="CLEYE_VGA"
                                         HorizontalAlignment="Left" VerticalAlignment="Center"
                                         Width="{Binding ImageWidth}" Height="{Binding ImageHeight}"
+                                        Margin="{Binding MarginSize, Converter={StaticResource CamRightMarginConverter}}"
                                         />
     </Grid>
 </Window>

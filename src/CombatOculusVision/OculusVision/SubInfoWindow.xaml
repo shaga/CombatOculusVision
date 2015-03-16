@@ -1,0 +1,21 @@
+﻿<Window x:Class="OculusVision.SubInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oculusVision="clr-namespace:OculusVision"
+        Title="CombatController" Height="300" Width="300"
+        Background="LightGray"
+        WindowState="Maximized"
+        SizeChanged="SubInfoWindow_OnSizeChanged"
+        Closed="SubInfoWindow_OnClosed">
+    <Grid>
+        <Grid.DataContext>
+            <Binding RelativeSource="{RelativeSource AncestorType={x:Type oculusVision:SubInfoWindow}}" />
+        </Grid.DataContext>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Foreground="DarkBlue" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding StateSize}" Text="{Binding CombatStatus}"/>
+    </Grid>
+</Window>

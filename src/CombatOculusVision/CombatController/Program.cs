@@ -41,25 +41,25 @@ namespace CombatController
             server.AddAction('f', () =>
             {
                 mtrLr.SetSpeed(0);
-                mtrFb.SetSpeed(-100);
+                mtrFb.SetSpeed(-63);
             });
 
             server.AddAction('b', () =>
             {
                 mtrLr.SetSpeed(0);
-                mtrFb.SetSpeed(100);
+                mtrFb.SetSpeed(63);
             });
 
             server.AddAction('l', () =>
             {
                 mtrFb.SetSpeed(0);
-                mtrLr.SetSpeed(-100);
+                mtrLr.SetSpeed(-63);
             });
 
             server.AddAction('r', () =>
             {
                 mtrFb.SetSpeed(0);
-                mtrLr.SetSpeed(100);
+                mtrLr.SetSpeed(63);
             });
 
             led.Write(true);
