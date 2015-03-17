@@ -4,7 +4,7 @@
         xmlns:oculusVision="clr-namespace:OculusVision"
         Title="CombatController" Height="300" Width="300"
         Background="LightGray"
-        WindowState="Maximized"
+        ResizeMode="NoResize"
         SizeChanged="SubInfoWindow_OnSizeChanged"
         Closed="SubInfoWindow_OnClosed">
     <Grid>
@@ -17,5 +17,9 @@
         </Grid.ColumnDefinitions>
         
         <TextBlock Foreground="DarkBlue" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding StateSize}" Text="{Binding CombatStatus}"/>
+
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button Content="終了" Margin="3" FontSize="20" Click="ButtonBase_OnClick"/>
+        </StackPanel>
     </Grid>
 </Window>

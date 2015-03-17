@@ -51,6 +51,8 @@ namespace OculusVision
         public SubInfoWindow()
         {
             InitializeComponent();
+
+            CombatStatus = "止";
         }
 
         private void SubInfoWindow_OnClosed(object sender, EventArgs e)
@@ -74,5 +76,11 @@ namespace OculusVision
         {
             StateSize = ActualWidth/6;
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
     }
 }
