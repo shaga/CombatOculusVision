@@ -24,7 +24,12 @@ namespace OculusVision
     {
         private string _combatStatus;
         private double _stateSize;
+        private string _button001Content;
+        private string _button002Content;
         public event Action ClosedEvent;
+
+        public event Action Button001Event;
+        public event Action Button002Event;
 
         public string CombatStatus
         {
@@ -33,6 +38,28 @@ namespace OculusVision
             {
                 if (value == _combatStatus) return;
                 _combatStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Button001Content
+        {
+            get { return _button001Content; }
+            set
+            {
+                if (value == _button001Content) return;
+                _button001Content = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Button002Content
+        {
+            get { return _button002Content; }
+            set
+            {
+                if (value == _button002Content) return;
+                _button002Content = value;
                 OnPropertyChanged();
             }
         }
@@ -82,5 +109,20 @@ namespace OculusVision
             Close();
         }
 
+        private void Button001_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Button001Event != null)
+            {
+                Button001Event();
+            }
+        }
+
+        private void Button002_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Button002Event != null)
+            {
+                Button002Event();
+            }
+        }
     }
 }
