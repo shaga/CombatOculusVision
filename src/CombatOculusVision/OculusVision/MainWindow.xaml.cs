@@ -247,6 +247,31 @@ namespace OculusVision
                         SubWindow = null;
                         Close();
                     };
+
+                    SubWindow.Button001Content = "明るさ+";
+                    SubWindow.Button001Event += () =>
+                    {
+                        if (ImageLeft.Device.LensBrightness < 500)
+                        {
+                            ImageLeft.Device.LensBrightness += 10;
+                        }
+                        if (ImageRight.Device.LensBrightness < 500)
+                        {
+                            ImageRight.Device.LensBrightness += 500;
+                        }
+                    };
+                    SubWindow.Button002Content = "明るさ-";
+                    SubWindow.Button002Event += () =>
+                    {
+                        if (ImageLeft.Device.LensBrightness > 0)
+                        {
+                            ImageLeft.Device.LensBrightness -= 10;
+                        }
+                        if (ImageRight.Device.LensBrightness > 0)
+                        {
+                            ImageRight.Device.LensBrightness -= 0;
+                        }
+                    };
                     SubWindow.Show();
                 }
             }

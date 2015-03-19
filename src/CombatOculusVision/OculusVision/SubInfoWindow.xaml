@@ -16,10 +16,21 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <TextBlock Foreground="DarkBlue" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding StateSize}" Text="{Binding CombatStatus}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" 
+                   Foreground="DarkBlue" Width="Auto" Height="Auto" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   FontSize="{Binding StateSize}" Text="{Binding CombatStatus}"/>
 
-        <StackPanel Grid.Column="1" Orientation="Vertical">
-            <Button Content="終了" Margin="3" FontSize="20" Click="ButtonBase_OnClick"/>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+            <Button Content="{Binding Button001Content}" FontSize="20" Height="30" Margin="3" Name="Button001" Click="Button001_OnClick"/>
+            <Button Content="{Binding Button002Content}" FontSize="20" Height="30" Margin="3" Name="Button002" Click="Button002_OnClick"/>
         </StackPanel>
+
+        <Button Grid.Row="1" Grid.Column="1" Content="終了" Margin="3" FontSize="20" Click="ButtonBase_OnClick" Height="30" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
