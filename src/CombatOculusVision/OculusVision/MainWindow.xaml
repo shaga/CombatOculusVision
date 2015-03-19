@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:clEyeMulticam="clr-namespace:CLEyeMulticam"
         xmlns:oculusVision="clr-namespace:OculusVision"
-        Title="MainWindow"
+        Title="OculusVision"
         Loaded="MainWindow_OnLoaded"
         Closing="MainWindow_OnClosing"
         SizeChanged="MainWindow_OnSizeChanged"
+        Width="800"
+        Height="450"
         >
     <Window.Resources>
         <oculusVision:CamLeftMarginConverter x:Key="CamLeftMarginConverter"/>

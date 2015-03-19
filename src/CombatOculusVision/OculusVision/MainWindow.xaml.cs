@@ -218,11 +218,15 @@ namespace OculusVision
             ImageLeft.Device.LensCorrection2 = 300;
             ImageLeft.Device.LensCorrection3 = 300;
 
+            ImageLeft.Device.LensBrightness = 100;
+
             ImageRight.Device.Create(CLEyeCameraDevice.CameraUUID(1));
             ImageRight.Device.Start();
             ImageRight.Device.LensCorrection1 = 300;
             ImageRight.Device.LensCorrection2 = 300;
             ImageRight.Device.LensCorrection3 = 300;
+
+            ImageRight.Device.LensBrightness = 100;
         }
 
         private void InitRift()
